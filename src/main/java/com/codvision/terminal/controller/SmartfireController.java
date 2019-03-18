@@ -32,7 +32,6 @@ public class SmartfireController {
                 responseEntity.setCode(100);
                 responseEntity.setMessage("获取信息错误");
             }
-
             jsonNode = objectMapper.readTree(result);
             JsonNode datajson = jsonNode.findPath("data");
             JsonNode code = jsonNode.findPath("code");
