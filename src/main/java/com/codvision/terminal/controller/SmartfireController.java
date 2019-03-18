@@ -55,8 +55,6 @@ public class SmartfireController {
         String url=BASE_URL3+"iot/iotsmartfirecontrol/alarmlist";
         String param="shopId="+shopId;
         String result = RequestUtil.sendGet(url, param);
-
-        
         JSONObject jsonObject = JSONObject.parseObject(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
