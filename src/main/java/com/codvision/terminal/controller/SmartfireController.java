@@ -25,6 +25,8 @@ public class SmartfireController {
         String param="shopId="+shopId+"&data="+data;
         String result = RequestUtil.sendGet(url, param);
 
+
+
         JSONObject jsonObject = JSONObject.parseObject(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
