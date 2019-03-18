@@ -1,0 +1,18 @@
+package com.codvision.terminal.dao;
+
+import com.codvision.terminal.bean.Device;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Mapper
+public interface DeviceMapper {
+
+    @Select("SELECT d.code,d.name,d.type,d.lng,d.lat,d.status,d.orgcode,o.name orgname FROM tbl_device d " +
+            "JOIN tbl_org o on o.oid=d.orgcode WHERE o.oid=#{orgcode}")
+    Device selectDevice(@Param("orgcode") String orgcode);
+
+
+}
