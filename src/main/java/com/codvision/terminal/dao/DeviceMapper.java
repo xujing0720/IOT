@@ -1,6 +1,7 @@
 package com.codvision.terminal.dao;
 
 import com.codvision.terminal.bean.Device;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -14,5 +15,7 @@ public interface DeviceMapper {
             "JOIN tbl_org o on o.oid=d.orgcode WHERE o.oid=#{orgcode}")
     Device selectDevice(@Param("orgcode") String orgcode);
 
-
+    @Insert("INSERT INTO tbl_device (code,type,name,model,manufacturer,serial_number,lng,lat,status,create_time,update_time) " +
+            "VALUES(#{code},#{type},#{name},#{model},#{manufacturer},#{serialnumber},#{lng},#{lat},#{status},#{createtime},#{updatetime})")
+    int add(Device device);
 }

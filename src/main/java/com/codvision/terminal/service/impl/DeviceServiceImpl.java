@@ -15,4 +15,10 @@ public class DeviceServiceImpl implements DeviceService {
 
         return deviceMapper.selectDevice(orgcode);
     }
+
+    @Override
+    public int add(Device device) {
+
+        return deviceMapper.add(device);
+    }
 }

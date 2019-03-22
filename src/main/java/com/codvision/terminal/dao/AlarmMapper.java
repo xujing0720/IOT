@@ -1,6 +1,6 @@
 package com.codvision.terminal.dao;
 
-import com.codvision.terminal.bean.Alarm;
+import com.codvision.terminal.bean.Alarminfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +24,7 @@ public interface AlarmMapper {
 
     @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_level,alarm_position,target_code,target_type,alarm_time) " +
             "value(#{alarmcode},#{info1},#{level},#{place},#{devicecode},#{targettype},#{alarmtime})")
-    int addAlarm(Alarm alarm);
+    int addAlarm(Alarminfo alarm);
 
 
     @Select("select * from tbl_alarm")
@@ -37,5 +37,5 @@ public interface AlarmMapper {
             @Result(property = "targettype",column = "target_type"),
             @Result(property = "alarmtime",column = "alarm_time")
     })
-    List<Alarm> getAlarm();
+    List<Alarminfo> getAlarm();
 }

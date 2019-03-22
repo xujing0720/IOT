@@ -5,10 +5,7 @@ import com.codvision.terminal.common.ResponseEntity;
 import com.codvision.terminal.util.RequestUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,5 +40,35 @@ public class ManholecoverController {
             e.printStackTrace();
         }
         return responseEntity;
+    }
+
+    @GetMapping("/getrealinfo")
+    //2.2.4.5 获取井盖的实时信息(有经纬度)
+    public ResponseEntity getrealinfo(@RequestParam(value = "scenarioId",required = true)String scenarioId){
+        ResponseEntity responseEntity=new ResponseEntity();
+        String url=BASE_URL3+"iot/iot_manholecover/getrealinfo";
+        String param="scenarioId="+scenarioId;
+        String result = RequestUtil.sendGet(url, param);
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        System.out.println(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            if (result == null) {
+                responseEntity.setCode(100);
+                responseEntity.setMessage("获取信息错误");
+            }
+            jsonNode = objectMapper.readTree(result);
+            JsonNode datajson = jsonNode.findPath("data");
+            JsonNode code = jsonNode.findPath("code");
+            JsonNode message = jsonNode.findPath("message");
+            responseEntity.setCode(code.intValue());
+            responseEntity.setMessage(message.asText());
+            responseEntity.setData(datajson);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+
     }
 }

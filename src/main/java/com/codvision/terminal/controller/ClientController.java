@@ -1,7 +1,7 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.codvision.terminal.bean.Alarm;
+import com.codvision.terminal.bean.Alarminfo;
 import com.codvision.terminal.bean.Device;
 import com.codvision.terminal.bean.HeartBeat;
 import com.codvision.terminal.bean.SubscribeInfo;
@@ -119,7 +119,7 @@ public class ClientController {
 
     @GetMapping("/getAlarm")
     //接收告警数据
-    public ResponseEntity addAlarm(@RequestParam(value = "alarm") Alarm alarm) throws Exception {
+    public ResponseEntity addAlarm(@RequestParam(value = "alarm") Alarminfo alarm) throws Exception {
         ResponseEntity responseEntity = new ResponseEntity();
         String url = BASE_URL3+"api/alarms";
         String result =RequestUtil.sendGet(url,null);
@@ -129,7 +129,7 @@ public class ClientController {
             responseEntity.setMessage("告警数据接收失败");
             return responseEntity;
         } else {
-            List<Alarm> alarmList = MapperUtils.json2list(result, Alarm.class);
+            List<Alarminfo> alarmList = MapperUtils.json2list(result, Alarminfo.class);
             boolean j;
             for (int i = 0; i < alarmList.size(); i++) {
                 j = alarmService.addAlarm(alarmList.get(i));
@@ -214,6 +214,7 @@ public class ClientController {
 
 
     }
+
 
 
 }

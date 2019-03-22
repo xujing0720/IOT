@@ -58,7 +58,7 @@ public class RequestUtil {
         } else {
             urlNameString = url + "?" + param;
         }
-        // System.out.println(urlNameString + "...........url");
+         System.out.println(urlNameString + "...........url");
         try {
             httpClient = new SSLClient();
             httpPost = new HttpGet(urlNameString);
@@ -132,7 +132,6 @@ public class RequestUtil {
     public static String doGet(String url, BasicNameValuePair... params) {
         String charset = "utf-8";
         HttpClient httpClient = null;
-
         String result = null;
         try {
             httpClient = new SSLClient();
