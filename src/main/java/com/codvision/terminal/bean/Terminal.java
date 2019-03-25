@@ -36,9 +36,9 @@ public class Terminal {
 //    private String propertyName;//属性名
 //    private String interval;//属性采用间隔
 //    private String _id;
-    private  String lati;
+    private  String latitude;
     private String location;
-    private String long_;
+    private String longitude;
     private String sceneID;
     private String state;
     private String terminalId;
@@ -47,9 +47,9 @@ public class Terminal {
     @Override
     public String toString() {
         return "Terminal{" +
-                "lati='" + lati + '\'' +
+                "latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
-                ", long_='" + long_ + '\'' +
+                ", longitude='" + longitude + '\'' +
                 ", sceneID='" + sceneID + '\'' +
                 ", state='" + state + '\'' +
                 ", terminalId='" + terminalId + '\'' +

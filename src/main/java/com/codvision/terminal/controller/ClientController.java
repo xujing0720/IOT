@@ -124,27 +124,27 @@ public class ClientController {
         String url = BASE_URL3+"api/alarms";
         String result =RequestUtil.sendGet(url,null);
         System.out.println("告警数据：" + result);
-        if (result == null) {
-            responseEntity.setCode(100);
-            responseEntity.setMessage("告警数据接收失败");
-            return responseEntity;
-        } else {
-            List<Alarminfo> alarmList = MapperUtils.json2list(result, Alarminfo.class);
-            boolean j;
-            for (int i = 0; i < alarmList.size(); i++) {
-                j = alarmService.addAlarm(alarmList.get(i));
-                if (!j) {
-                    responseEntity.setCode(100);
-                    responseEntity.setMessage("报警数据存储失败");
-                }
-                responseEntity.setCode(200);
-                responseEntity.setMessage("成功");
-            }
+//        if (result == null) {
+//            responseEntity.setCode(100);
+//            responseEntity.setMessage("告警数据接收失败");
+//            return responseEntity;
+//        } else {
+//            List<Alarminfo> alarmList = MapperUtils.json2list(result, Alarminfo.class);
+//            boolean j;
+//            for (int i = 0; i < alarmList.size(); i++) {
+//               // j = alarmService.addAlarm(alarmList.get(i));
+//                if (!j) {
+//                    responseEntity.setCode(100);
+//                    responseEntity.setMessage("报警数据存储失败");
+//                }
+//                responseEntity.setCode(200);
+//                responseEntity.setMessage("成功");
+//            }
 
             return responseEntity;
         }
 
-    }
+
 
     /*
     心跳机制

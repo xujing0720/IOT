@@ -18,7 +18,7 @@ public class Device {
     private Date createtime;//创建时间
 
     private Date updatetime;//更新时间
-//    private String orgcode;//小区编码
+    private String shopId;
 
     @Override
     public String toString() {
@@ -31,12 +31,13 @@ public class Device {
                 ", serialnumber='" + serialnumber + '\'' +
                 ", lng='" + lng + '\'' +
                 ", lat='" + lat + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", createtime=" + createtime +
                 ", updatetime=" + updatetime +
+                ", shopId='" + shopId + '\'' +
                 '}';
     }
-
+//    private String orgcode;//小区编码
 
 
 }
