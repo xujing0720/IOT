@@ -5,5 +5,5 @@ import com.codvision.terminal.bean.Device;
 public interface DeviceService {
     Device selectDevice(String orgcode);
 
-    int add(Device device);
+    int  add(Device device);
 }

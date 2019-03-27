@@ -1,6 +1,6 @@
 package com.codvision.terminal.service.impl;
 
-import com.codvision.terminal.bean.Alarm;
+import com.codvision.terminal.bean.alarms.Alarm;
 import com.codvision.terminal.bean.Alarminfo;
 import com.codvision.terminal.dao.AlarmMapper;
 import com.codvision.terminal.service.AlarmService;

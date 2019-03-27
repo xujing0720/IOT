@@ -1,4 +1,4 @@
-package com.codvision.terminal.bean;
+package com.codvision.terminal.bean.alarms;
 
 import lombok.Data;
 
@@ -17,7 +17,8 @@ public class ElectricalSafetyAlarm {
     private String appEUI;
     private String updateAlarmTime;//更新时间
     private String recoveryTime;//告警恢复时间
-    private Timestamp firestAlarmTime;//首次告警时间
+
+    private Timestamp firstAlarmTime;//首次告警时间
     private String alarmId;//告警记录Id
     private String shopId;//?场所id
     private String shopName;//场所名称
@@ -27,6 +28,7 @@ public class ElectricalSafetyAlarm {
     private String longitude;//经度
     private String latitude;//纬度
     private String location;//位置
+    private String alarmType;
 
     @Override
     public String toString() {
@@ -42,7 +44,7 @@ public class ElectricalSafetyAlarm {
                 ", appEUI='" + appEUI + '\'' +
                 ", updateAlarmTime='" + updateAlarmTime + '\'' +
                 ", recoveryTime='" + recoveryTime + '\'' +
-                ", firestAlarmTime=" + firestAlarmTime +
+                ", firstAlarmTime=" + firstAlarmTime +
                 ", alarmId='" + alarmId + '\'' +
                 ", shopId='" + shopId + '\'' +
                 ", shopName='" + shopName + '\'' +
@@ -52,6 +54,7 @@ public class ElectricalSafetyAlarm {
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
+                ", alarmType='" + alarmType + '\'' +
                 '}';
     }
 }

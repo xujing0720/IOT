@@ -1,4 +1,4 @@
-package com.codvision.terminal.bean;
+package com.codvision.terminal.bean.alarms;
 
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class NewAlarm {
     private String smokeScope;//烟雾浓度百分比
     private String recoveryStatus;//告警恢复状态
     private String disposeStatus;//告警处理状态
-    private Timestamp firestAlarmTime;//首次告警时间
+    private Timestamp firstAlarmTime;//首次告警时间
     private String updateAlarmTime;//更新时间
     private String recoveryTime;//告警恢复时间
 }

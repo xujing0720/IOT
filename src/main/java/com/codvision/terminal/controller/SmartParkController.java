@@ -1,10 +1,16 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.codvision.terminal.bean.*;
+import com.codvision.terminal.bean.Device;
+import com.codvision.terminal.bean.TerminalEx;
+import com.codvision.terminal.bean.alarms.Alarm;
+import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
+import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
+import com.codvision.terminal.bean.alarms.NewAlarm;
 import com.codvision.terminal.common.ResponseEntity;
 import com.codvision.terminal.service.AlarmService;
 import com.codvision.terminal.service.DeviceService;
+import com.codvision.terminal.util.ReplaceUtils;
 import com.codvision.terminal.util.RequestUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +48,6 @@ public class SmartParkController {
 
         ResponseEntity responseEntity = new ResponseEntity();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/terminals";
-
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
         BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", devEUI);
@@ -52,44 +57,37 @@ public class SmartParkController {
         System.out.println(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
+        if (result == null) {
+            responseEntity.setCode(100);
+            responseEntity.setMessage("获取信息错误");
+        }
         try {
-            if (result == null) {
-                responseEntity.setCode(100);
-                responseEntity.setMessage("获取信息错误");
-            }
             jsonNode = objectMapper.readTree(result);
             JsonNode datajson = jsonNode.findPath("data");
-
             JsonNode list = datajson.findPath("list");
-            System.out.println(list.toString());
-            List<Terminal> terminalList = JSONArray.parseArray(list.toString(), Terminal.class);
-//            存到数据库
-            for (int i = 0; i < terminalList.size(); i++) {
+//            System.out.println(list.toString());
 
+//        存到数据库
+            List<TerminalEx> terminalList = JSONArray.parseArray(list.toString(), TerminalEx.class);
+
+            for (int i = 0; i < terminalList.size(); i++) {
                 Device device = new Device();
-                device.setCode(terminalList.get(i).getTerminalId());
+                device.setCode(terminalList.get(i).getOidIndex());
                 device.setCreatetime(new Date());
-                device.setUpdatetime(new Date());
+                device.setUpdatetime(terminalList.get(i).getUpdateTime());
                 device.setLat(terminalList.get(i).getLatitude());
                 device.setLng(terminalList.get(i).getLongitude());
-                if (terminalList.get(i).getTmnName().contains("井盖")) {
-                    System.out.println("helloworld");
-                }
-//                    device.setType("烟感");
-//                    if (terminalList.get(i).getTmnName().equals("TBS-110")) {
-//                        device.setManufacturer("武汉拓宝");
-//                    } else {
-//                        device.setManufacturer("赛特威尔");
-//                    }
-
-                device.setSerialnumber(terminalList.get(i).getTmnDevSN());
-                device.setModel(terminalList.get(i).getTmnType());
+                device.setType(tmnType);
+                device.setShopId(terminalList.get(i).getShopId());
+                device.setManufacturer(terminalList.get(i).getTmnFacturer());
+                device.setSerialnumber(terminalList.get(i).getDevEUI());
+                device.setModel(terminalList.get(i).getDevType());
                 device.setName(terminalList.get(i).getTmnName());
-                device.setStatus(1);
+                device.setStatus(Integer.parseInt(terminalList.get(i).getOnlineStatus()));
                 System.out.println(device.toString());
-//                    int j = deviceService.add(device);
+                //添加设备
+                // deviceService.add(device);
             }
-
             JsonNode code = jsonNode.findPath("code");
             JsonNode message = jsonNode.findPath("message");
             responseEntity.setCode(code.intValue());
@@ -155,17 +153,14 @@ public class SmartParkController {
                                         @RequestParam(value = "endTime", required = false) Long endTime,
                                         @RequestParam(value = "pageNum", required = true) int pageNum,
                                         @RequestParam(value = "pageSize", required = true) int pageSize) {
-
         ResponseEntity responseEntity = new ResponseEntity();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
-
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
         //BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", devEUI);
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
         String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
-
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -175,80 +170,88 @@ public class SmartParkController {
             }
             jsonNode = objectMapper.readTree(result);
             JsonNode datajson = jsonNode.findPath("data");
-
             JsonNode list = datajson.findPath("list");
             System.out.println(list.toString());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+            //烟感
             if (tmnType.equals("smokeDetector")) {
                 List<NewAlarm> newAlarmList = JSONArray.parseArray(list.toString(), NewAlarm.class);
                 for (int i = 0; i < newAlarmList.size(); i++) {
                     Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-                    alarm.setAlarmType(ArrayUtils.toString(newAlarmList.get(i).getAlarmType()));
+                    alarm.setAlarmType(ReplaceUtils.replist(String.join(",",newAlarmList.get(i).getAlarmType())));
                     alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
-                    alarm.setAlarmname("烟感");
+                    alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
-                    alarm.setFirstAlarmTime(newAlarmList.get(i).getFirestAlarmTime());
+                    alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     System.out.println(alarm);
-                    alarmService.addAlarm(alarm);
+                    // alarmService.addAlarm(alarm);
                 }
             }
 //            List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
-             if(tmnType.equals("manholeCover")){
+
+            //井盖
+            if (tmnType.equals("manholeCover")) {
                 List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
-                for(int i=0;i<newAlarmList.size();i++){
-                    Alarm alarm=new Alarm();
+                for (int i = 0; i < newAlarmList.size(); i++) {
+                    Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-                    alarm.setAlarmType(ArrayUtils.toString(newAlarmList.get(i).getAlarmType()));
+                    alarm.setAlarmType(ReplaceUtils.repManAlarm(ArrayUtils.toString(",",newAlarmList.get(i).getAlarmType())));
                     alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
-                    alarm.setAlarmname("井盖");
+                    alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     System.out.println(alarm);
-                    alarmService.addAlarm(alarm);
+                    //  alarmService.addAlarm(alarm);
                 }
-
             }
-
-            if(tmnType.equals("electricalSafety")){
-                List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
-                for(int i=0;i<newAlarmList.size();i++){
-                    Alarm alarm=new Alarm();
+            //用电安全
+            if (tmnType.equals("electricalSafety")) {
+                List<ElectricalSafetyAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ElectricalSafetyAlarm.class);
+                for (int i = 0; i < newAlarmList.size(); i++) {
+                    Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-                    alarm.setAlarmType(ArrayUtils.toString(newAlarmList.get(i).getAlarmType()));
+                    alarm.setAlarmType(ReplaceUtils.repEleAlarm(ArrayUtils.toString(newAlarmList.get(i).getAlarmType())));
                     alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
-                    alarm.setAlarmname("用电安全");
+                    alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     System.out.println(alarm);
-                    //alarmService.addAlarm(alarm);
+                   // alarmService.addAlarm(alarm);
                 }
+            }
+            //可燃性气体
+            if (tmnType.equals("combustibleGas")) {
 
             }
-
-
-//            for(int i=0;i<newAlarmList.size();i++){
-//                alarmService.addAlarm(newAlarmList.get(i));
-//                if(){
-//                    newAlarmList.get(i).setAlarmname("烟感");
-//                }else if(tmnType.equals("combustibleGas")){
-//                    newAlarmList.get(i).setAlarmname("可燃气");
-//                }else if(tmnType.equals("smokeDetector")){
-//                    newAlarmList.get(i).setAlarmname("烟感");
-//                }else if(tmnType.equals("smokeDetector")){
-//                    newAlarmList.get(i).setAlarmname("烟感");
+            //燃气表
+            if (tmnType.equals("gasmeter")) {
+//                List<NewAlarm> newAlarmList = JSONArray.parseArray(list.toString(), NewAlarm.class);
+//                for (int i = 0; i < newAlarmList.size(); i++) {
+//                    Alarm alarm = new Alarm();
+//                    alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
+//                    alarm.setAlarmType(ArrayUtils.toString(newAlarmList.get(i).getAlarmType()));
+//                    alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
+//                    alarm.setLocation(newAlarmList.get(i).getLocation());
+//                    alarm.setDevType(tmnType);
+//                    alarm.setAlarmname("燃气表");
+//                    alarm.setShopId(newAlarmList.get(i).getShopId());
+//                    alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
+//                    alarm.setShopName(newAlarmList.get(i).getShopName());
+//                    System.out.println(alarm);
+//                    // alarmService.addAlarm(alarm);
 //                }
-//            }
+            }
+
 
             JsonNode code = jsonNode.findPath("code");
             JsonNode message = jsonNode.findPath("message");
@@ -262,3 +265,4 @@ public class SmartParkController {
     }
 
 }
+
