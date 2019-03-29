@@ -36,6 +36,7 @@ public class Device {
         if (tmnType.equals("gasmeter")) {
             this.type = "燃气表";
         }
+        this.type = tmnType;
     }
 
     @Override

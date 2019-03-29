@@ -2,7 +2,7 @@ package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.codvision.terminal.bean.Device;
-import com.codvision.terminal.bean.TerminalEx;
+import com.codvision.terminal.bean.terminals.TerminalEx;
 import com.codvision.terminal.bean.alarms.Alarm;
 import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
 import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
@@ -179,16 +179,20 @@ public class SmartParkController {
                 for (int i = 0; i < newAlarmList.size(); i++) {
                     Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-                    alarm.setAlarmType(ReplaceUtils.replist(String.join(",",newAlarmList.get(i).getAlarmType())));
-                    alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
+                    alarm.setAlarmType(ReplaceUtils.replist(String.join(",", newAlarmList.get(i).getAlarmType())));
+                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
+                    alarm.setLatitude(newAlarmList.get(i).getLatitude());
+                    alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     System.out.println(alarm);
+                    //添加
                     // alarmService.addAlarm(alarm);
+
                 }
             }
 //            List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
@@ -199,16 +203,19 @@ public class SmartParkController {
                 for (int i = 0; i < newAlarmList.size(); i++) {
                     Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-                    alarm.setAlarmType(ReplaceUtils.repManAlarm(ArrayUtils.toString(",",newAlarmList.get(i).getAlarmType())));
-                    alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
+                    alarm.setAlarmType(ReplaceUtils.repManAlarm(ArrayUtils.toString(",", newAlarmList.get(i).getAlarmType())));
+                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
+                    alarm.setLatitude(newAlarmList.get(i).getLatitude());
+                    alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     System.out.println(alarm);
                     //  alarmService.addAlarm(alarm);
+
                 }
             }
             //用电安全
@@ -218,15 +225,18 @@ public class SmartParkController {
                     Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
                     alarm.setAlarmType(ReplaceUtils.repEleAlarm(ArrayUtils.toString(newAlarmList.get(i).getAlarmType())));
-                    alarm.setDevEUI(newAlarmList.get(i).getDevEUI());
+                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
+                    alarm.setLatitude(newAlarmList.get(i).getLatitude());
+                    alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     System.out.println(alarm);
-                   // alarmService.addAlarm(alarm);
+                    // alarmService.addAlarm(alarm);
+                   
                 }
             }
             //可燃性气体
@@ -247,6 +257,8 @@ public class SmartParkController {
 //                    alarm.setShopId(newAlarmList.get(i).getShopId());
 //                    alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
 //                    alarm.setShopName(newAlarmList.get(i).getShopName());
+//                alarm.setLatitude(newAlarmList.get(i).getLatitude());
+//                alarm.setLongitude(newAlarmList.get(i).getLongitude());
 //                    System.out.println(alarm);
 //                    // alarmService.addAlarm(alarm);
 //                }

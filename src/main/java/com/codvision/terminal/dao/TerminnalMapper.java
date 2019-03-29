@@ -1,6 +1,6 @@
 package com.codvision.terminal.dao;
 
-import com.codvision.terminal.bean.Terminal;
+import com.codvision.terminal.bean.terminals.Terminal;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

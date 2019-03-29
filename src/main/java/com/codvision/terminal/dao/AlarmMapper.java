@@ -23,8 +23,8 @@ public interface AlarmMapper {
  */
 
 
-    @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_type,alarm_position,target_code,target_type,alarm_time,org_code,org_name) " +
-            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName})")
+    @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_type,alarm_position,target_code,target_type,alarm_time,org_code,org_name,lat,lng) " +
+            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName},#{latitude},#{longitude})")
     int addAlarm(Alarm alarm);
 
 
@@ -39,4 +39,7 @@ public interface AlarmMapper {
             @Result(property = "alarmtime",column = "alarm_time")
     })
     List<Alarminfo> getAlarm();
+
+    @Update("update tbl_alarm set lng=#{longitude},lat=#{latitude} where alarm_code=#{alarmId}")
+    int updateAlarmLg(Alarm alarm);
 }

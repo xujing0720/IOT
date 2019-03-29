@@ -10,4 +10,6 @@ public interface AlarmService {
     boolean addAlarm(Alarm alarm);
 
     List<Alarminfo> getAlarm();
+
+    boolean updateAlarmLg(Alarm alarm);
 }

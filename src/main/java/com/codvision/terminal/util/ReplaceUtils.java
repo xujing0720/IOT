@@ -16,8 +16,8 @@ public class ReplaceUtils {
                 put("sfa", "故障告警");
                 put("lba", "低电量告警");
                 put("soa", "防拆告警");
-                put("voltage", "低电压");
-                put("angle", "倾斜异动");
+                put("voltage", "低电压告警");
+                put("angle", "倾斜异动告警");
                 put("offlineAlarm", "离线告警");
             }
         };
@@ -32,15 +32,15 @@ public class ReplaceUtils {
     public static String repEleAlarm(String str) {
         Map<String, String> map = new HashMap<String, String>() {
             {
-                put("0x01", "剩余电量");
-                put("0x06", "电弧");
-                put("0x02","故障");
-                put("0x03","故障");
-                put("0x04","火灾");
-                put("0x05","故障");
-                put("temperature", "温度");
-                put("fault", "故障");
-                put("0x07", "离线");
+                put("0x01", "剩余电量告警");
+                put("0x06", "电弧告警");
+                put("0x02","故障告警");
+                put("0x03","故障告警");
+                put("0x04","火灾告警");
+                put("0x05","故障告警");
+                put("temperature", "温度告警");
+                put("fault", "故障告警");
+                put("0x07", "离线告警");
             }
         };
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -54,9 +54,9 @@ public class ReplaceUtils {
     public static String repManAlarm(String str) {
         Map<String, String> map = new HashMap<String, String>() {
             {
-                put("voltage", "低电压");
-                put("angle", "倾斜异动");
-                put("offline", "离线");
+                put("voltage", "低电压告警");
+                put("angle", "倾斜异动告警");
+                put("offline", "离线告警");
             }
         };
         for (Map.Entry<String, String> entry : map.entrySet()) {

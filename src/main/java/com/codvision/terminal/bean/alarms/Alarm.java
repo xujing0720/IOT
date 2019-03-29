@@ -12,6 +12,16 @@ public class Alarm {
     private String shopId;//场所id
     private String shopName;//场所名称
 
+    private String devType;//终端类型
+    private String devEUI;//告警设备编码
+    private String alarmType;//告警类型
+    private String location;//位置
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    private Date firstAlarmTime;//首次告警时间
+    private String alarmname;//告警名称
+    private String longitude;//经度
+    private String latitude;//纬度
+
     @Override
     public String toString() {
         return "Alarm{" +
@@ -24,16 +34,10 @@ public class Alarm {
                 ", location='" + location + '\'' +
                 ", firstAlarmTime=" + firstAlarmTime +
                 ", alarmname='" + alarmname + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
                 '}';
     }
-
-    private String devType;//终端类型
-    private String devEUI;//终端sn
-    private String alarmType;//告警类型
-    private String location;//位置
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
-    private Date firstAlarmTime;//首次告警时间
-    private String alarmname;//告警名称
 
     public void setAlarmname(String tmnType) {
         if (tmnType.equals("smokeDetector")) {

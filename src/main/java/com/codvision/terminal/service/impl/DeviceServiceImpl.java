@@ -21,4 +21,9 @@ public class DeviceServiceImpl implements DeviceService {
 
         return deviceMapper.add(device);
     }
+
+    @Override
+    public String selectcodeBydeveui(String devEUI) {
+        return deviceMapper.selectcode(devEUI);
+    }
 }

@@ -1,6 +1,6 @@
 package com.codvision.terminal.service;
 
-import com.codvision.terminal.bean.Terminal;
+import com.codvision.terminal.bean.terminals.Terminal;
 
 import java.util.List;
 

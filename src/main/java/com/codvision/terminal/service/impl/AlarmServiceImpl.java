@@ -28,4 +28,10 @@ public class AlarmServiceImpl implements AlarmService {
 
         return alarmMapper.getAlarm();
     }
+
+    @Override
+    public boolean updateAlarmLg(Alarm alarm) {
+        int i= alarmMapper.updateAlarmLg( alarm);
+        return i>0?true:false;
+    }
 }

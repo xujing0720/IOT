@@ -18,4 +18,7 @@ public interface DeviceMapper {
     @Insert("INSERT INTO tbl_device (code,type,name,model,manufacturer,serial_number,lng,lat,status,create_time,update_time,org_code) " +
             "VALUES(#{code},#{type},#{name},#{model},#{manufacturer},#{serialnumber},#{lng},#{lat},#{status},#{createtime},#{updatetime},#{shopId})")
     int add(Device device);
+
+    @Select("SELECT code FROM tbl_device where serial_number=#{devEUI}")
+    String selectcode(@Param("devEUI") String devEUI);
 }

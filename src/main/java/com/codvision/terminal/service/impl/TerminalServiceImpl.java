@@ -1,6 +1,6 @@
 package com.codvision.terminal.service.impl;
 
-import com.codvision.terminal.bean.Terminal;
+import com.codvision.terminal.bean.terminals.Terminal;
 import com.codvision.terminal.dao.TerminnalMapper;
 import com.codvision.terminal.service.TerminalService;
 import org.springframework.beans.factory.annotation.Autowired;
