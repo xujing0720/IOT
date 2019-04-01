@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/iot_geomagnetic")
+@RequestMapping("/iotgeomagnetic")
 //地磁终端
 public class GeomagneticController {
     private static final String BASE_URL3 = "https://218.108.146.92:10443/restapi/";
@@ -24,6 +24,7 @@ public class GeomagneticController {
         String url=BASE_URL3+"iot/iot_geomagnetic/getrealinfo";
         BasicNameValuePair pair = new BasicNameValuePair("scenarioId", scenarioId);
         String result = RequestUtil.doGet(url, pair);
+        System.out.println(result);
         JSONObject jsonObject = JSONObject.parseObject(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;

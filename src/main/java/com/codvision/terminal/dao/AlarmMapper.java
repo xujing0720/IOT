@@ -23,8 +23,8 @@ public interface AlarmMapper {
  */
 
 
-    @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_type,alarm_position,target_code,target_type,alarm_time,org_code,org_name,lat,lng) " +
-            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName},#{latitude},#{longitude})")
+    @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_type,alarm_position,target_code,target_type,alarm_time,org_code,org_name,lat,lng,disposestatus,recoverystatus) " +
+            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName},#{latitude},#{longitude},#{disposestatus},#{recoverystatus})")
     int addAlarm(Alarm alarm);
 
 
@@ -42,4 +42,10 @@ public interface AlarmMapper {
 
     @Update("update tbl_alarm set lng=#{longitude},lat=#{latitude} where alarm_code=#{alarmId}")
     int updateAlarmLg(Alarm alarm);
+
+    @Update("update tbl_alarm set disposestatus=#{disposestatus},recoverystatus=#{recoverystatus} where alarm_code=#{alarmId}")
+    int updateAlarmStatus(Alarm alarm);
+
+    @Select("select alarm_id from tbl_alarm where alarm_code=#{alarmId}")
+    Integer selectAlarmId(@Param("alarmId") String alarmId);
 }

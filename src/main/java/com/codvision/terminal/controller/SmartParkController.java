@@ -35,14 +35,14 @@ public class SmartParkController {
 
 
     @Autowired
-    private DeviceService deviceService;
+    DeviceService deviceService;
     @Autowired
-    private AlarmService alarmService;
+     AlarmService alarmService;
 
     @GetMapping("/getterminals")
     public ResponseEntity getstwe(@RequestParam(value = "shopId", required = true) String shopId,
                                   @RequestParam(value = "tmnType", required = true) String tmnType,
-                                  @RequestParam(value = "devEUI", required = false) String devEUI,
+//                                  @RequestParam(value = "devEUI", required = false,defaultValue = "") String devEUI,
                                   @RequestParam(value = "pageNum", required = true) int pageNum,
                                   @RequestParam(value = "pageSize", required = true) int pageSize) {
 
@@ -50,7 +50,7 @@ public class SmartParkController {
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/terminals";
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
-        BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", devEUI);
+        BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", "");
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
         String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
@@ -64,35 +64,39 @@ public class SmartParkController {
         try {
             jsonNode = objectMapper.readTree(result);
             JsonNode datajson = jsonNode.findPath("data");
+
             JsonNode list = datajson.findPath("list");
 //            System.out.println(list.toString());
 
 //        存到数据库
             List<TerminalEx> terminalList = JSONArray.parseArray(list.toString(), TerminalEx.class);
-
             for (int i = 0; i < terminalList.size(); i++) {
+               // System.out.println(terminalList.get(i).getDevEUI());
+                String devEUI=terminalList.get(i).getDevEUI();
+             //   System.out.println(deviceService.selectcodeBydeveui(devEUI)+"...............");
                 Device device = new Device();
-                device.setCode(terminalList.get(i).getOidIndex());
-                device.setCreatetime(new Date());
-                device.setUpdatetime(terminalList.get(i).getUpdateTime());
-                device.setLat(terminalList.get(i).getLatitude());
-                device.setLng(terminalList.get(i).getLongitude());
-                device.setType(tmnType);
-                device.setShopId(terminalList.get(i).getShopId());
-                device.setManufacturer(terminalList.get(i).getTmnFacturer());
-                device.setSerialnumber(terminalList.get(i).getDevEUI());
-                device.setModel(terminalList.get(i).getDevType());
-                device.setName(terminalList.get(i).getTmnName());
-                device.setStatus(Integer.parseInt(terminalList.get(i).getOnlineStatus()));
-                System.out.println(device.toString());
-                //添加设备
-                // deviceService.add(device);
+                    device.setCode(terminalList.get(i).getOidIndex());
+                    device.setCreatetime(new Date());
+                    device.setUpdatetime(terminalList.get(i).getUpdateTime());
+                    device.setLat(terminalList.get(i).getLatitude());
+                    device.setLng(terminalList.get(i).getLongitude());
+                    device.setType(tmnType);
+                    device.setShopId(terminalList.get(i).getShopId());
+                    device.setManufacturer(terminalList.get(i).getTmnFacturer());
+                    device.setSerialnumber(terminalList.get(i).getDevEUI());
+                    device.setModel(terminalList.get(i).getDevType());
+                    device.setName(terminalList.get(i).getTmnName());
+                    device.setStatus(Integer.parseInt(terminalList.get(i).getOnlineStatus()));
+                    //添加设备
+                   // deviceService.add(device);
             }
             JsonNode code = jsonNode.findPath("code");
+            JsonNode total=datajson.findPath("total");
             JsonNode message = jsonNode.findPath("message");
             responseEntity.setCode(code.intValue());
             responseEntity.setMessage(message.asText());
             responseEntity.setData(datajson);
+            responseEntity.setTotal(total.intValue());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -189,10 +193,12 @@ public class SmartParkController {
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
+                    alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
+                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
                     System.out.println(alarm);
                     //添加
                     // alarmService.addAlarm(alarm);
-
+                    alarmService.updateAlarmStatus(alarm);
                 }
             }
 //            List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
@@ -213,9 +219,12 @@ public class SmartParkController {
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
+                    alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
+                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
                     System.out.println(alarm);
-                    //  alarmService.addAlarm(alarm);
-
+                    //添加
+                    // alarmService.addAlarm(alarm);
+                    alarmService.updateAlarmStatus(alarm);
                 }
             }
             //用电安全
@@ -225,7 +234,7 @@ public class SmartParkController {
                     Alarm alarm = new Alarm();
                     alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
                     alarm.setAlarmType(ReplaceUtils.repEleAlarm(ArrayUtils.toString(newAlarmList.get(i).getAlarmType())));
-                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));
+                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));//查询设备code
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
@@ -234,9 +243,12 @@ public class SmartParkController {
                     alarm.setShopName(newAlarmList.get(i).getShopName());
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
+                    alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
+                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
                     System.out.println(alarm);
-                    // alarmService.addAlarm(alarm);
-                   
+                    //添加
+                     //alarmService.addAlarm(alarm);
+                    alarmService.updateAlarmStatus(alarm);
                 }
             }
             //可燃性气体

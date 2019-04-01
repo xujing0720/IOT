@@ -6,7 +6,16 @@ import java.util.Map;
 public class ResponseEntity<T> {
     private int code ;
     private String message ;
+    private int total;
     private T data;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
     public ResponseEntity() {
     }

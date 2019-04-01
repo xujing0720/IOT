@@ -80,7 +80,7 @@ public class WaterpressureController {
                 }
                 System.out.println(device.toString());
                 //添加设备
-                 deviceService.add(device);
+                // deviceService.add(device);
 
             }
             JsonNode code = jsonNode.findPath("code");

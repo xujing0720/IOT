@@ -5,11 +5,10 @@ import com.codvision.terminal.dao.DeviceMapper;
 import com.codvision.terminal.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 @Service
 public class DeviceServiceImpl implements DeviceService {
     @Autowired
-    private DeviceMapper deviceMapper;
+     DeviceMapper deviceMapper;
     @Override
     public Device selectDevice(String orgcode) {
 
@@ -24,6 +23,7 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public String selectcodeBydeveui(String devEUI) {
-        return deviceMapper.selectcode(devEUI);
+        String code=deviceMapper.selectcode(devEUI);
+        return code;
     }
 }

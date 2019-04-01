@@ -29,6 +29,8 @@ public class ElectricalSafetyAlarm {
     private String latitude;//纬度
     private String location;//位置
     private String alarmType;
+    private String recoveryStatus;
+    private String disposeStatus;
 
     @Override
     public String toString() {
@@ -55,6 +57,8 @@ public class ElectricalSafetyAlarm {
                 ", latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
                 ", alarmType='" + alarmType + '\'' +
+                ", recoveryStatus=" + recoveryStatus +
+                ", disposeStatus=" + disposeStatus +
                 '}';
     }
 }

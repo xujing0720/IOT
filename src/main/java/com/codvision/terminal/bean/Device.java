@@ -19,6 +19,8 @@ public class Device {
 
     private Date updatetime;//更新时间
     private String shopId;
+    private String devicetor;
+    private String devicetorMobile;
 
     public void setType(String tmnType) {
         if (tmnType.equals("smokeDetector")) {
@@ -54,6 +56,8 @@ public class Device {
                 ", createtime=" + createtime +
                 ", updatetime=" + updatetime +
                 ", shopId='" + shopId + '\'' +
+                ", devicetor='" + devicetor + '\'' +
+                ", devicetorMobile='" + devicetorMobile + '\'' +
                 '}';
     }
 //    private String orgcode;//小区编码

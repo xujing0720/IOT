@@ -12,4 +12,8 @@ public interface AlarmService {
     List<Alarminfo> getAlarm();
 
     boolean updateAlarmLg(Alarm alarm);
+
+    int  updateAlarmStatus(Alarm alarm);
+
+    Integer selectAlarmId(String alarmId);
 }

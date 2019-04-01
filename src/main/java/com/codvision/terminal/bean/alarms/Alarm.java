@@ -21,6 +21,8 @@ public class Alarm {
     private String alarmname;//告警名称
     private String longitude;//经度
     private String latitude;//纬度
+    private int disposestatus;//处理状态
+    private int recoverystatus;//恢复状态
 
     @Override
     public String toString() {
@@ -36,6 +38,8 @@ public class Alarm {
                 ", alarmname='" + alarmname + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
+                ", disposeStatus=" + disposestatus +
+                ", recoveryStatus=" + recoverystatus +
                 '}';
     }
 

@@ -34,4 +34,14 @@ public class AlarmServiceImpl implements AlarmService {
         int i= alarmMapper.updateAlarmLg( alarm);
         return i>0?true:false;
     }
+
+    @Override
+    public int updateAlarmStatus(Alarm alarm) {
+        return alarmMapper.updateAlarmStatus(alarm);
+    }
+
+    @Override
+    public Integer selectAlarmId(String alarmId) {
+        return alarmMapper.selectAlarmId(alarmId);
+    }
 }
