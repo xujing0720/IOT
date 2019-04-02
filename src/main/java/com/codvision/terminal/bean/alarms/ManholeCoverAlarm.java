@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class ManholeCoverAlarm {
     private String currentAngle;//温度
     private String currentVoltag;//电池电压
-    private String baseAngle;
+    private String baseAngle;//背景角度
     private Timestamp firstAlarmTime;//首次告警时间
     private String alarmType;
     private String alarmId;//告警记录Id
@@ -21,9 +21,7 @@ public class ManholeCoverAlarm {
     private String longitude;//经度
     private String latitude;//纬度
     private String location;//位置
-    private String temperature;//温度
-    private String batteryVoltage;//电池电压百分比
-    private String smokeScope;//烟雾浓度百分比
+
     private String recoveryStatus;//告警恢复状态
     private String disposeStatus;//告警处理状态
 
@@ -44,9 +42,6 @@ public class ManholeCoverAlarm {
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
-                ", temperature='" + temperature + '\'' +
-                ", batteryVoltage='" + batteryVoltage + '\'' +
-                ", smokeScope='" + smokeScope + '\'' +
                 ", recoveryStatus='" + recoveryStatus + '\'' +
                 ", disposeStatus='" + disposeStatus + '\'' +
                 ", updateAlarmTime='" + updateAlarmTime + '\'' +

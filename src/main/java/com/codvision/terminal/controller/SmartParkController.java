@@ -194,6 +194,9 @@ public class SmartParkController {
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
+                    alarm.setAlarmContent("温度："+newAlarmList.get(i).getTemperature()+"℃"+
+                            ";电池电压百分比:"+newAlarmList.get(i).getBatteryVoltage()+"%"+
+                            ";烟雾浓度百分比:"+newAlarmList.get(i).getSmokeScope()+"%");
                     if (newAlarmList.get(i).getRecoveryStatus() == null) {
                         alarm.setRecoverystatus(1);
                     } else {
@@ -219,6 +222,9 @@ public class SmartParkController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
+                    alarm.setAlarmContent("温度:"+newAlarmList.get(i).getCurrentAngle()+"℃"+
+                            ";背景角度:"+newAlarmList.get(i).getBaseAngle()+"°"+
+                            ";电池电压百分比:"+newAlarmList.get(i).getCurrentVoltag()+"%");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
@@ -248,6 +254,8 @@ public class SmartParkController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
+                    alarm.setAlarmContent("实时告警值:"+((newAlarmList.get(i).getCurrentVal()==null)?"":newAlarmList.get(i).getCurrentVal())+"mA"+
+                            ";告警值:"+((newAlarmList.get(i).getAlarmVal()==null)?"":newAlarmList.get(i).getAlarmVal())+"mA");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());

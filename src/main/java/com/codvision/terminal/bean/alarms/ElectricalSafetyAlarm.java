@@ -17,6 +17,7 @@ public class ElectricalSafetyAlarm {
     private String appEUI;
     private String updateAlarmTime;//更新时间
     private Timestamp recoveryTime;//告警恢复时间
+    private String alarmVal;//电流
 
     private Timestamp firstAlarmTime;//首次告警时间
     private String alarmId;//告警记录Id
@@ -45,7 +46,8 @@ public class ElectricalSafetyAlarm {
                 ", tmnOIDIndex='" + tmnOIDIndex + '\'' +
                 ", appEUI='" + appEUI + '\'' +
                 ", updateAlarmTime='" + updateAlarmTime + '\'' +
-                ", recoveryTime='" + recoveryTime + '\'' +
+                ", recoveryTime=" + recoveryTime +
+                ", alarmVal='" + alarmVal + '\'' +
                 ", firstAlarmTime=" + firstAlarmTime +
                 ", alarmId='" + alarmId + '\'' +
                 ", shopId='" + shopId + '\'' +
@@ -57,8 +59,8 @@ public class ElectricalSafetyAlarm {
                 ", latitude='" + latitude + '\'' +
                 ", location='" + location + '\'' +
                 ", alarmType='" + alarmType + '\'' +
-                ", recoveryStatus=" + recoveryStatus +
-                ", disposeStatus=" + disposeStatus +
+                ", recoveryStatus='" + recoveryStatus + '\'' +
+                ", disposeStatus='" + disposeStatus + '\'' +
                 '}';
     }
 }

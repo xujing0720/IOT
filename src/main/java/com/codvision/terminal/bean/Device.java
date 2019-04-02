@@ -25,20 +25,17 @@ public class Device {
     public void setType(String tmnType) {
         if (tmnType.equals("smokeDetector")) {
             this.type = "烟感";
-        }
-        if (tmnType.equals("manholeCover")) {
+        } else if (tmnType.equals("manholeCover")) {
             this.type = "井盖";
-        }
-        if (tmnType.equals("electricalSafety")) {
+        } else if (tmnType.equals("electricalSafety")) {
             this.type = "用电安全";
-        }
-        if (tmnType.equals("combustibleGas")) {
+        } else if (tmnType.equals("combustibleGas")) {
             this.type = "可燃气体";
-        }
-        if (tmnType.equals("gasmeter")) {
+        } else if (tmnType.equals("gasmeter")) {
             this.type = "燃气表";
+        } else {
+            this.type = tmnType;
         }
-        this.type = tmnType;
     }
 
     @Override

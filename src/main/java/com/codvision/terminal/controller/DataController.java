@@ -81,8 +81,8 @@ public class DataController {
     }
 
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0/2 * * *")
+
+    @Scheduled(cron = "0/20 * * * * *")
     //获取烟感告警信息
     public void getSmokerAlarm() {
         Termcontroller termcontroller = new Termcontroller();
@@ -110,6 +110,9 @@ public class DataController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
+                    alarm.setAlarmContent("温度："+newAlarmList.get(i).getTemperature()+"℃"+
+                            ";电池电压百分比:"+newAlarmList.get(i).getBatteryVoltage()+"%"+
+                            ";烟雾浓度百分比:"+newAlarmList.get(i).getSmokeScope()+"%");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
@@ -123,7 +126,7 @@ public class DataController {
                         alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
                     }
                     System.out.println(alarm);
-                    alarmService.addAlarm(alarm);                           //添加到告警
+                    alarmService.addAlarm(alarm);                                            //添加到告警
                    int c= alarmService.addOrg(alarm.getShopId(),alarm.getAlarmId());         //添加到告警组织
 
                 } else {
@@ -135,8 +138,8 @@ public class DataController {
     }
 
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0/2 * * *")
+
+    @Scheduled(cron = "0/20 * * * * *")
     //获取井盖告警信息
     public void getManAlarm() {
         Termcontroller termcontroller = new Termcontroller();
@@ -164,6 +167,9 @@ public class DataController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
+                    alarm.setAlarmContent("温度:"+newAlarmList.get(i).getCurrentAngle()+"℃"+
+                            ";背景角度:"+newAlarmList.get(i).getBaseAngle()+"°"+
+                            ";电池电压百分比:"+newAlarmList.get(i).getCurrentVoltag()+"%");
                     alarm.setRecoveryTime(newAlarmList.get(i).getRecoveryTime());
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
@@ -188,8 +194,8 @@ public class DataController {
 
     }
 
-    @PostConstruct
-    @Scheduled(cron = "0 0 0/2 * * *")
+
+    @Scheduled(cron = "0/20 * * * * *")
     //获取用电安全告警信息
     public void getElectricalSafetyAlarm() {
         Termcontroller termcontroller = new Termcontroller();
@@ -217,6 +223,8 @@ public class DataController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
+                    alarm.setAlarmContent("实时告警值:"+((newAlarmList.get(i).getCurrentVal()==null)?"":newAlarmList.get(i).getCurrentVal())+"mA"+
+                            ";告警值:"+((newAlarmList.get(i).getAlarmVal()==null)?"":newAlarmList.get(i).getAlarmVal())+"mA");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());

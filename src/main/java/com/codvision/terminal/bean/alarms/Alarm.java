@@ -25,6 +25,7 @@ public class Alarm {
     private int recoverystatus;//恢复状态
     @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
     private Date recoveryTime;//告警恢复时间
+    private String alarmContent;//告警内容
 
     @Override
     public String toString() {
@@ -43,44 +44,41 @@ public class Alarm {
                 ", disposestatus=" + disposestatus +
                 ", recoverystatus=" + recoverystatus +
                 ", recoveryTime=" + recoveryTime +
+                ", alarmContent='" + alarmContent + '\'' +
                 '}';
     }
+
 
     public void setAlarmname(String tmnType) {
         if (tmnType.equals("smokeDetector")) {
             this.alarmname = "烟感";
-        }
-        if (tmnType.equals("manholeCover")) {
+        } else if (tmnType.equals("manholeCover")) {
             this.alarmname = "井盖";
-        }
-        if (tmnType.equals("electricalSafety")) {
+        } else if (tmnType.equals("electricalSafety")) {
             this.alarmname = "用电安全";
-        }
-        if (tmnType.equals("combustibleGas")) {
+        } else if (tmnType.equals("combustibleGas")) {
             this.alarmname = "可燃气体";
-        }
-        if (tmnType.equals("gasmeter")) {
+        } else if (tmnType.equals("gasmeter")) {
             this.alarmname = "燃气表";
+        } else {
+            this.alarmname = tmnType;
         }
     }
 
     public void setDevType(String tmnType) {
         if (tmnType.equals("smokeDetector")) {
             this.devType = "烟感";
-        }
-        if (tmnType.equals("manholeCover")) {
+        } else if (tmnType.equals("manholeCover")) {
             this.devType = "井盖";
-        }
-        if (tmnType.equals("electricalSafety")) {
+        } else if (tmnType.equals("electricalSafety")) {
             this.devType = "用电安全";
-        }
-        if (tmnType.equals("combustibleGas")) {
+        } else if (tmnType.equals("combustibleGas")) {
             this.devType = "可燃气体";
-        }
-        if (tmnType.equals("gasmeter")) {
+        } else if (tmnType.equals("gasmeter")) {
             this.devType = "燃气表";
+        } else {
+            this.devType = tmnType;
         }
-        this.devType = tmnType;
 
     }
 }
