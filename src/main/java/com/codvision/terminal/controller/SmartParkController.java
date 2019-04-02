@@ -194,7 +194,12 @@ public class SmartParkController {
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
-                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    if (newAlarmList.get(i).getRecoveryStatus() == null) {
+                        alarm.setRecoverystatus(1);
+                    } else {
+                        alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    }
+                    alarm.setRecoveryTime(newAlarmList.get(i).getRecoveryTime());
                     System.out.println(alarm);
                     //添加
                     // alarmService.addAlarm(alarm);
@@ -220,7 +225,12 @@ public class SmartParkController {
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
-                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    if (newAlarmList.get(i).getRecoveryStatus() == null) {
+                        alarm.setRecoverystatus(1);
+                    } else {
+                        alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    }
+                    alarm.setRecoveryTime(newAlarmList.get(i).getRecoveryTime());
                     System.out.println(alarm);
                     //添加
                     // alarmService.addAlarm(alarm);
@@ -244,7 +254,12 @@ public class SmartParkController {
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
-                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    if (newAlarmList.get(i).getRecoveryStatus() == null) {
+                        alarm.setRecoverystatus(1);
+                    } else {
+                        alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
+                    }
+                    alarm.setRecoveryTime(newAlarmList.get(i).getRecoveryTime());
                     System.out.println(alarm);
                     //添加
                      //alarmService.addAlarm(alarm);

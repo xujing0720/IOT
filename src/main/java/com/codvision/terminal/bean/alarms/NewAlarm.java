@@ -23,5 +23,5 @@ public class NewAlarm {
     private String disposeStatus;//告警处理状态
     private Timestamp firstAlarmTime;//首次告警时间
     private String updateAlarmTime;//更新时间
-    private String recoveryTime;//告警恢复时间
+    private Timestamp recoveryTime;//告警恢复时间
 }

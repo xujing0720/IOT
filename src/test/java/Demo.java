@@ -4,6 +4,8 @@ public class Demo {
         int b=10;
         System.out.println(Integer.valueOf(a)-b);
         System.out.println(190/100);
+        Object o=new Integer[]{1,2};
+
 
     }
 }

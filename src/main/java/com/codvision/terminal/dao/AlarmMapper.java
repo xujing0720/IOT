@@ -43,9 +43,13 @@ public interface AlarmMapper {
     @Update("update tbl_alarm set lng=#{longitude},lat=#{latitude} where alarm_code=#{alarmId}")
     int updateAlarmLg(Alarm alarm);
 
-    @Update("update tbl_alarm set disposestatus=#{disposestatus},recoverystatus=#{recoverystatus} where alarm_code=#{alarmId}")
+    @Update("update tbl_alarm set recovery_time=#{recoveryTime} where alarm_code=#{alarmId}")
     int updateAlarmStatus(Alarm alarm);
 
     @Select("select alarm_id from tbl_alarm where alarm_code=#{alarmId}")
     Integer selectAlarmId(@Param("alarmId") String alarmId);
+
+    @Insert("INSERT INTO tbl_alarm_org_mapper \n" +
+            "SELECT o.oid,alarm_id FROM tbl_alarm d INNER JOIN tbl_org o on d.org_code=o.ref_oid and d.org_code=#{shopId} and d.alarm_code=#{alarmId}")
+    int addOrg(@Param("shopId")String shopId,@Param("alarmId") String alarmId);
 }

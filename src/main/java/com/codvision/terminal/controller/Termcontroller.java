@@ -1,6 +1,8 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
+import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
 import com.codvision.terminal.bean.alarms.NewAlarm;
 import com.codvision.terminal.bean.terminals.TerminalEx;
 import com.codvision.terminal.common.DataResponse;
@@ -56,6 +58,7 @@ public class Termcontroller {
             responseEntity.setList(terminalExList);
             responseEntity.setTotal(total.intValue());
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,30 +85,69 @@ public class Termcontroller {
             JsonNode datajson = jsonNode.findPath("data");
             JsonNode list = datajson.findPath("list");
             JsonNode total=datajson.findPath("total");
-            System.out.println(list.toString());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             List<NewAlarm> newAlarmList = JSONArray.parseArray(list.toString(), NewAlarm.class);
-//                for (int i = 0; i < newAlarmList.size(); i++) {
-//                    Alarm alarm = new Alarm();
-//                    alarm.setAlarmId(newAlarmList.get(i).getAlarmId());
-//                    alarm.setAlarmType(ReplaceUtils.replist(String.join(",", newAlarmList.get(i).getAlarmType())));
-//                    alarm.setDevEUI(deviceService.selectcodeBydeveui(newAlarmList.get(i).getDevEUI()));
-//                    alarm.setLocation(newAlarmList.get(i).getLocation());
-//                    alarm.setDevType(tmnType);
-//                    alarm.setAlarmname(tmnType);
-//                    alarm.setShopId(newAlarmList.get(i).getShopId());
-//                    alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
-//                    alarm.setShopName(newAlarmList.get(i).getShopName());
-//                    alarm.setLatitude(newAlarmList.get(i).getLatitude());
-//                    alarm.setLongitude(newAlarmList.get(i).getLongitude());
-//                    alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
-//                    alarm.setRecoverystatus(Integer.parseInt(newAlarmList.get(i).getRecoveryStatus()));
-//                    System.out.println(alarm);
-//                    //添加
-//                    // alarmService.addAlarm(alarm);
-//                    alarmService.updateAlarmStatus(alarm);
-//
-//            }
+            responseEntity.setList(newAlarmList);
+            responseEntity.setTotal(total.intValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+    }
+
+
+    //获取井盖告警
+    public DataResponse<ManholeCoverAlarm> getmanholeCoverAlarmslist(String shopId, String tmnType, int pageNum, int pageSize) {
+        DataResponse responseEntity = new DataResponse();
+        String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
+        BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
+        BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
+        BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
+        BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            if (result == null) {
+                responseEntity.setCode(100);
+                responseEntity.setMessage("获取信息错误");
+            }
+            jsonNode = objectMapper.readTree(result);
+            JsonNode datajson = jsonNode.findPath("data");
+            JsonNode list = datajson.findPath("list");
+            JsonNode total=datajson.findPath("total");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<ManholeCoverAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ManholeCoverAlarm.class);
+            responseEntity.setList(newAlarmList);
+            responseEntity.setTotal(total.intValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+    }
+
+    //获取用电安全告警
+    public DataResponse<ElectricalSafetyAlarm> getElectricalSafetyAlarm(String shopId, String tmnType, int pageNum, int pageSize) {
+        DataResponse responseEntity = new DataResponse();
+        String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
+        BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
+        BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
+        BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
+        BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            if (result == null) {
+                responseEntity.setCode(100);
+                responseEntity.setMessage("获取信息错误");
+            }
+            jsonNode = objectMapper.readTree(result);
+            JsonNode datajson = jsonNode.findPath("data");
+            JsonNode list = datajson.findPath("list");
+            JsonNode total=datajson.findPath("total");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            List<ElectricalSafetyAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ElectricalSafetyAlarm.class);
             responseEntity.setList(newAlarmList);
             responseEntity.setTotal(total.intValue());
         } catch (IOException e) {

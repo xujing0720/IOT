@@ -8,4 +8,6 @@ public interface DeviceService {
     int add(Device device);
 
     String selectcodeBydeveui(String devEUI);
+
+    int addOrg(String shopId,String code);
 }

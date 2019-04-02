@@ -16,7 +16,7 @@ public class ElectricalSafetyAlarm {
     private String tmnOIDIndex;
     private String appEUI;
     private String updateAlarmTime;//更新时间
-    private String recoveryTime;//告警恢复时间
+    private Timestamp recoveryTime;//告警恢复时间
 
     private Timestamp firstAlarmTime;//首次告警时间
     private String alarmId;//告警记录Id

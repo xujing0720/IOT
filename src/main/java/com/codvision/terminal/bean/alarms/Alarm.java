@@ -23,6 +23,8 @@ public class Alarm {
     private String latitude;//纬度
     private int disposestatus;//处理状态
     private int recoverystatus;//恢复状态
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    private Date recoveryTime;//告警恢复时间
 
     @Override
     public String toString() {
@@ -38,8 +40,9 @@ public class Alarm {
                 ", alarmname='" + alarmname + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
-                ", disposeStatus=" + disposestatus +
-                ", recoveryStatus=" + recoverystatus +
+                ", disposestatus=" + disposestatus +
+                ", recoverystatus=" + recoverystatus +
+                ", recoveryTime=" + recoveryTime +
                 '}';
     }
 

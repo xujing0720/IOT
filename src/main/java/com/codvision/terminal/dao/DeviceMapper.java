@@ -21,4 +21,8 @@ public interface DeviceMapper {
 
     @Select("SELECT code FROM tbl_device where serial_number=#{devEUI}")
     String selectcode(@Param("devEUI")String devEUI);
+
+    @Insert("INSERT INTO tbl_device_org_mapper \n" +
+            "SELECT o.oid,device_id FROM tbl_device d INNER JOIN tbl_org o on d.org_code=o.ref_oid and d.org_code=#{shopId} and d.code=#{code}")
+    int addOrg(@Param("shopId") String shopId,@Param("code") String code);
 }

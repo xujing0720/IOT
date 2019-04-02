@@ -16,4 +16,6 @@ public interface AlarmService {
     int  updateAlarmStatus(Alarm alarm);
 
     Integer selectAlarmId(String alarmId);
+
+    int addOrg(String shopId,String alarmId);
 }

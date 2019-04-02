@@ -26,4 +26,10 @@ public class DeviceServiceImpl implements DeviceService {
         String code=deviceMapper.selectcode(devEUI);
         return code;
     }
+
+    @Override
+    public int addOrg(String shopId,String code) {
+        int v=deviceMapper.addOrg(shopId,code);
+        return v;
+    }
 }

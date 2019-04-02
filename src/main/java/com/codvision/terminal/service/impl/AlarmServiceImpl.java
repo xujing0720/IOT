@@ -44,4 +44,9 @@ public class AlarmServiceImpl implements AlarmService {
     public Integer selectAlarmId(String alarmId) {
         return alarmMapper.selectAlarmId(alarmId);
     }
+
+    @Override
+    public int addOrg(String shopId,String alarmId) {
+        return alarmMapper.addOrg(shopId,alarmId);
+    }
 }

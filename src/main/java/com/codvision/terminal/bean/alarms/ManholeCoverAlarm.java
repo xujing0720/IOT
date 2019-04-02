@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 @Data
 public class ManholeCoverAlarm {
-    private String currentAngle;
-    private String currentVoltag;
+    private String currentAngle;//温度
+    private String currentVoltag;//电池电压
     private String baseAngle;
     private Timestamp firstAlarmTime;//首次告警时间
     private String alarmType;
@@ -55,6 +55,6 @@ public class ManholeCoverAlarm {
     }
 
     private String updateAlarmTime;//更新时间
-    private String recoveryTime;//告警恢复时间
+    private Timestamp recoveryTime;//告警恢复时间
 
 }
