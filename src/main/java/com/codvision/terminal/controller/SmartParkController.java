@@ -2,11 +2,12 @@ package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.codvision.terminal.bean.Device;
-import com.codvision.terminal.bean.terminals.TerminalEx;
 import com.codvision.terminal.bean.alarms.Alarm;
 import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
 import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
 import com.codvision.terminal.bean.alarms.NewAlarm;
+import com.codvision.terminal.bean.terminals.TerminalEx;
+import com.codvision.terminal.bean.zuobiao.Gps;
 import com.codvision.terminal.common.ResponseEntity;
 import com.codvision.terminal.service.AlarmService;
 import com.codvision.terminal.service.DeviceService;
@@ -37,7 +38,7 @@ public class SmartParkController {
     @Autowired
     DeviceService deviceService;
     @Autowired
-     AlarmService alarmService;
+    AlarmService alarmService;
 
     @GetMapping("/getterminals")
     public ResponseEntity getstwe(@RequestParam(value = "shopId", required = true) String shopId,
@@ -71,27 +72,46 @@ public class SmartParkController {
 //        存到数据库
             List<TerminalEx> terminalList = JSONArray.parseArray(list.toString(), TerminalEx.class);
             for (int i = 0; i < terminalList.size(); i++) {
-               // System.out.println(terminalList.get(i).getDevEUI());
-                String devEUI=terminalList.get(i).getDevEUI();
-             //   System.out.println(deviceService.selectcodeBydeveui(devEUI)+"...............");
+                Gps gps = null;
+                // System.out.println(terminalList.get(i).getDevEUI());
+                String devEUI = terminalList.get(i).getDevEUI();
+                //   System.out.println(deviceService.selectcodeBydeveui(devEUI)+"...............");
                 Device device = new Device();
-                    device.setCode(terminalList.get(i).getOidIndex());
-                    device.setCreatetime(new Date());
-                    device.setUpdatetime(terminalList.get(i).getUpdateTime());
-                    device.setLat(terminalList.get(i).getLatitude());
-                    device.setLng(terminalList.get(i).getLongitude());
-                    device.setType(tmnType);
-                    device.setShopId(terminalList.get(i).getShopId());
-                    device.setManufacturer(terminalList.get(i).getTmnFacturer());
-                    device.setSerialnumber(terminalList.get(i).getDevEUI());
-                    device.setModel(terminalList.get(i).getDevType());
-                    device.setName(terminalList.get(i).getTmnName());
-                    device.setStatus(Integer.parseInt(terminalList.get(i).getOnlineStatus()));
-                    //添加设备
-                   // deviceService.add(device);
+                device.setCode(terminalList.get(i).getOidIndex());
+                device.setCreatetime(new Date());
+                device.setUpdatetime(terminalList.get(i).getUpdateTime());
+                String coordType = terminalList.get(i).getCoordType();
+//                System.out.println(coordType);
+//                if (terminalList.get(i).getLatitude() != null) {
+//                    if (coordType == null || coordType.equals("wgs84")) {
+//                        gps.setWgLat(terminalList.get(i).getLatitude());
+//                        gps.setWgLon(terminalList.get(i).getLongitude());
+//                    }
+//                    if (coordType.equals("bd-09")) {
+//                        gps = PositionUtil.bd09_To_Gps84(terminalList.get(i).getLatitude(), terminalList.get(i).getLongitude());
+//                    }
+//                    if (coordType.equals("gcj-02")) {
+//                        gps = PositionUtil.gcj_To_Gps84(terminalList.get(i).getLatitude(), terminalList.get(i).getLongitude());
+//                    }
+//                }
+//                device.setLat(gps.getWgLat());
+//                device.setLng(gps.getWgLon());
+                device.setLat(terminalList.get(i).getLatitude());
+                device.setLng(terminalList.get(i).getLongitude());
+                device.setType(tmnType);
+                device.setShopId(terminalList.get(i).getShopId());
+                device.setManufacturer(terminalList.get(i).getTmnFacturer());
+                device.setSerialnumber(terminalList.get(i).getDevEUI());
+                device.setModel(terminalList.get(i).getDevType());
+                device.setName(terminalList.get(i).getTmnName());
+                device.setStatus(Integer.parseInt(terminalList.get(i).getOnlineStatus()));
+                //添加设备
+                // deviceService.add(device);
+                System.out.println(device);
+                int o = deviceService.updateLg(device.getLat(), device.getLng());
             }
             JsonNode code = jsonNode.findPath("code");
-            JsonNode total=datajson.findPath("total");
+            JsonNode total = datajson.findPath("total");
             JsonNode message = jsonNode.findPath("message");
             responseEntity.setCode(code.intValue());
             responseEntity.setMessage(message.asText());
@@ -194,9 +214,9 @@ public class SmartParkController {
                     alarm.setLatitude(newAlarmList.get(i).getLatitude());
                     alarm.setLongitude(newAlarmList.get(i).getLongitude());
                     alarm.setDisposestatus(Integer.parseInt(newAlarmList.get(i).getDisposeStatus()));
-                    alarm.setAlarmContent("温度："+newAlarmList.get(i).getTemperature()+"℃"+
-                            ";电池电压百分比:"+newAlarmList.get(i).getBatteryVoltage()+"%"+
-                            ";烟雾浓度百分比:"+newAlarmList.get(i).getSmokeScope()+"%");
+                    alarm.setAlarmContent("温度：" + newAlarmList.get(i).getTemperature() + "℃" +
+                            ";电池电压百分比:" + newAlarmList.get(i).getBatteryVoltage() + "%" +
+                            ";烟雾浓度百分比:" + newAlarmList.get(i).getSmokeScope() + "%");
                     if (newAlarmList.get(i).getRecoveryStatus() == null) {
                         alarm.setRecoverystatus(1);
                     } else {
@@ -222,9 +242,9 @@ public class SmartParkController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
-                    alarm.setAlarmContent("温度:"+newAlarmList.get(i).getCurrentAngle()+"℃"+
-                            ";背景角度:"+newAlarmList.get(i).getBaseAngle()+"°"+
-                            ";电池电压百分比:"+newAlarmList.get(i).getCurrentVoltag()+"%");
+                    alarm.setAlarmContent("温度:" + newAlarmList.get(i).getCurrentAngle() + "℃" +
+                            ";背景角度:" + newAlarmList.get(i).getBaseAngle() + "°" +
+                            ";电池电压百分比:" + newAlarmList.get(i).getCurrentVoltag() + "%");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
@@ -254,8 +274,8 @@ public class SmartParkController {
                     alarm.setLocation(newAlarmList.get(i).getLocation());
                     alarm.setDevType(tmnType);
                     alarm.setAlarmname(tmnType);
-                    alarm.setAlarmContent("实时告警值:"+((newAlarmList.get(i).getCurrentVal()==null)?"":newAlarmList.get(i).getCurrentVal())+"mA"+
-                            ";告警值:"+((newAlarmList.get(i).getAlarmVal()==null)?"":newAlarmList.get(i).getAlarmVal())+"mA");
+                    alarm.setAlarmContent("实时告警值:" + ((newAlarmList.get(i).getCurrentVal() == null) ? "" : newAlarmList.get(i).getCurrentVal()) + "mA" +
+                            ";告警值:" + ((newAlarmList.get(i).getAlarmVal() == null) ? "" : newAlarmList.get(i).getAlarmVal()) + "mA");
                     alarm.setShopId(newAlarmList.get(i).getShopId());
                     alarm.setFirstAlarmTime(newAlarmList.get(i).getFirstAlarmTime());
                     alarm.setShopName(newAlarmList.get(i).getShopName());
@@ -270,7 +290,7 @@ public class SmartParkController {
                     alarm.setRecoveryTime(newAlarmList.get(i).getRecoveryTime());
                     System.out.println(alarm);
                     //添加
-                     //alarmService.addAlarm(alarm);
+                    //alarmService.addAlarm(alarm);
                     alarmService.updateAlarmStatus(alarm);
                 }
             }

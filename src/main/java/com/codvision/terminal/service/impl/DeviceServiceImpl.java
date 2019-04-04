@@ -32,4 +32,9 @@ public class DeviceServiceImpl implements DeviceService {
         int v=deviceMapper.addOrg(shopId,code);
         return v;
     }
+
+    @Override
+    public int updateLg(Float lat, Float lng) {
+        return deviceMapper.updateLg(lat,lng);
+    }
 }

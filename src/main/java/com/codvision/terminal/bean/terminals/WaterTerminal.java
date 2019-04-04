@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 public class WaterTerminal {
     private String devEUI;
     private String coordType;
-    private String lat;
-    private String lng;
+    private Float lat;
+    private Float lng;
     private String location;
     private Timestamp onlineTime;
     private int pressureVal;

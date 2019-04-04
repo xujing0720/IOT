@@ -10,4 +10,6 @@ public interface DeviceService {
     String selectcodeBydeveui(String devEUI);
 
     int addOrg(String shopId,String code);
+
+    int updateLg(Float lat, Float lng);
 }

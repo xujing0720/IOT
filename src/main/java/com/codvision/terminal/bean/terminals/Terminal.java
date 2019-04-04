@@ -7,9 +7,9 @@ import java.sql.Timestamp;
 @Data
 public class Terminal {
 
-    private  String latitude;
+    private  Float latitude;
     private String location;
-    private String longitude;
+    private Float longitude;
     private String shopId;
     private String onlineStatus;
     private String appEUI;

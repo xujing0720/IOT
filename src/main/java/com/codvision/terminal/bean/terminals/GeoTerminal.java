@@ -19,10 +19,11 @@ public class GeoTerminal {
    private String scenarioId;
    private String appEUI;
    private String parkingLotStatus;
-   private String longitude;
-   private String latitude;
+   private Float longitude;
+   private Float latitude;
    private String parkingLotNumber;
    private Timestamp startTime;
    private int batteryVoltage;
+   private String coordType;
 
 }

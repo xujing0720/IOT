@@ -19,8 +19,8 @@ public class Alarm {
     @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
     private Date firstAlarmTime;//首次告警时间
     private String alarmname;//告警名称
-    private String longitude;//经度
-    private String latitude;//纬度
+    private Float longitude;//经度
+    private Float latitude;//纬度
     private int disposestatus;//处理状态
     private int recoverystatus;//恢复状态
     @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")

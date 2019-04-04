@@ -26,12 +26,13 @@ public class ElectricalSafetyAlarm {
     private String tmnName;//终端名称
     private String devEUI;//终端sn
     private String terminalType;
-    private String longitude;//经度
-    private String latitude;//纬度
+    private Float longitude;//经度
+    private Float latitude;//纬度
     private String location;//位置
     private String alarmType;
     private String recoveryStatus;
     private String disposeStatus;
+    private String coordType;
 
     @Override
     public String toString() {

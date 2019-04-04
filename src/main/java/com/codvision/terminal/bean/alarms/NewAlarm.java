@@ -13,8 +13,8 @@ public class NewAlarm {
     private String devEUI;//终端sn
     private String[] alarmType;//告警类型
     private String coordType;//地图类型
-    private String longitude;//经度
-    private String latitude;//纬度
+    private Float longitude;//经度
+    private Float latitude;//纬度
     private String location;//位置
     private String temperature;//温度
     private String batteryVoltage;//电池电压百分比

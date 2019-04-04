@@ -18,8 +18,8 @@ public class ManholeCoverAlarm {
     private String devEUI;//终端sn
 
     private String coordType;//地图类型
-    private String longitude;//经度
-    private String latitude;//纬度
+    private Float longitude;//经度
+    private Float latitude;//纬度
     private String location;//位置
 
     private String recoveryStatus;//告警恢复状态

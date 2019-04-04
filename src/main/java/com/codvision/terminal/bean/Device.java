@@ -12,8 +12,8 @@ public class Device {
     private String manufacturer;//设备厂商
     private String model;//设备型号
     private String serialnumber;//设备序列号
-    private String lng;//经度
-    private String lat;//纬度
+    private Float lng;//经度
+    private Float lat;//纬度
     private int status;//设备状态
     private Date createtime;//创建时间
 
@@ -21,6 +21,10 @@ public class Device {
     private String shopId;
     private String devicetor;
     private String devicetorMobile;
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setType(String tmnType) {
         if (tmnType.equals("smokeDetector")) {

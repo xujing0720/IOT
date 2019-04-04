@@ -1,10 +1,13 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
 import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
 import com.codvision.terminal.bean.alarms.NewAlarm;
+import com.codvision.terminal.bean.terminals.GeoTerminal;
 import com.codvision.terminal.bean.terminals.TerminalEx;
+import com.codvision.terminal.bean.terminals.WaterTerminal;
 import com.codvision.terminal.common.DataResponse;
 import com.codvision.terminal.service.AlarmService;
 import com.codvision.terminal.service.DeviceService;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 @Component
 public class Termcontroller {
@@ -26,7 +30,7 @@ public class Termcontroller {
     DeviceService deviceService;
     @Autowired
    AlarmService alarmService;
-    //获取设备
+    //获取烟感，井盖，用电安全设备
     public DataResponse getstwe(String shopId, String tmnType, int pageNum, int pageSize) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/terminals";
@@ -64,6 +68,71 @@ public class Termcontroller {
         }
         return responseEntity;
     }
+
+
+    //获取水压设备
+    public DataResponse getWaterpressure(String shopId, int status, int pageNum, int pageSize) {
+        DataResponse responseEntity = new DataResponse();
+        String url = BASE_URL3 + "iot/iot_waterpressure_restapi/external/terminal/realinfo";
+        String param = "shopId=" + shopId + "&status=" + status + "&pageSize=" + pageSize + "&pageNum=" + pageNum;
+        String result = RequestUtil.sendGet(url, param);
+        //System.out.println(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        List<WaterTerminal> terminalList=null;
+        if (result == null) {
+            responseEntity.setCode(100);
+            responseEntity.setMessage("获取信息错误");
+        }
+        try {
+            jsonNode = objectMapper.readTree(result);
+            JsonNode datajson = jsonNode.findPath("data");
+            JsonNode total=datajson.findPath("count");
+            JsonNode list = datajson.findPath("dataList");
+            terminalList = JSONArray.parseArray(list.toString(), WaterTerminal.class);
+            JsonNode code = jsonNode.findPath("code");
+            JsonNode message = jsonNode.findPath("message");
+            responseEntity.setCode(code.intValue());
+            responseEntity.setMessage(message.asText());
+            responseEntity.setList(terminalList);
+            responseEntity.setTotal(total.intValue());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+    }
+
+    //获取地磁
+    public DataResponse<GeoTerminal> getDici(String scenarioId){
+        DataResponse responseEntity=new DataResponse();
+        String url=BASE_URL3+"iot/iot_geomagnetic/getrealinfo";
+        BasicNameValuePair pair = new BasicNameValuePair("scenarioId", scenarioId);
+        String result = RequestUtil.doGet(url, pair);
+        System.out.println(result);
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        List<GeoTerminal> geoTerminalList=new ArrayList<>();
+        try {
+            jsonNode = objectMapper.readTree(result);
+            JsonNode data = jsonNode.findPath("data");
+            JsonNode code = jsonNode.findPath("code");
+            JsonNode list = data.findPath("parkingLotList");
+            geoTerminalList = JSONArray.parseArray(list.toString(), GeoTerminal.class);
+            JsonNode message = jsonNode.findPath("message");
+
+            responseEntity.setCode(code.intValue());
+            responseEntity.setMessage(message.asText());
+            responseEntity.setList(geoTerminalList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+    }
+
+
+
 
     //获取烟感告警
     public DataResponse<NewAlarm> getSmokerAlarmslist(String shopId, String tmnType, int pageNum, int pageSize) {

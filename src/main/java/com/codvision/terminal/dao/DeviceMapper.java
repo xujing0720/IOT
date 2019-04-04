@@ -1,10 +1,7 @@
 package com.codvision.terminal.dao;
 
 import com.codvision.terminal.bean.Device;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,4 +22,7 @@ public interface DeviceMapper {
     @Insert("INSERT INTO tbl_device_org_mapper \n" +
             "SELECT o.oid,device_id FROM tbl_device d INNER JOIN tbl_org o on d.org_code=o.ref_oid and d.org_code=#{shopId} and d.code=#{code}")
     int addOrg(@Param("shopId") String shopId,@Param("code") String code);
+
+    @Update("UPDATE tbl_device SET lat=#{lat},lng=#{lng}")
+    int updateLg(@Param("lat") Float lat,@Param("lng") Float lng);
 }
