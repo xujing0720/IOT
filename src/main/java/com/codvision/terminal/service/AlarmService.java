@@ -1,7 +1,7 @@
 package com.codvision.terminal.service;
 
 import com.codvision.terminal.bean.alarms.Alarm;
-import com.codvision.terminal.bean.Alarminfo;
+import com.codvision.terminal.bean.alarms.Alarminfo;
 
 import java.util.List;
 

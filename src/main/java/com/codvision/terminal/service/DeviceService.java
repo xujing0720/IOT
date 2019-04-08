@@ -1,6 +1,6 @@
 package com.codvision.terminal.service;
 
-import com.codvision.terminal.bean.Device;
+import com.codvision.terminal.bean.devices.Device;
 
 public interface DeviceService {
     Device selectDevice(String orgcode);

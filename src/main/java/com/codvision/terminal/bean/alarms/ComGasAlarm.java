@@ -1,6 +1,5 @@
-package com.codvision.terminal.bean;
+package com.codvision.terminal.bean.alarms;
 
-import com.codvision.terminal.bean.alarms.NewAlarm;
 import lombok.Data;
 
 @Data

@@ -135,14 +135,16 @@ public class Termcontroller {
 
 
     //获取烟感告警
-    public DataResponse<NewAlarm> getSmokerAlarmslist(String shopId, String tmnType, int pageNum, int pageSize) {
+    public DataResponse<NewAlarm> getSmokerAlarmslist(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
-        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        BasicNameValuePair pair5 = new BasicNameValuePair("startTime", String.valueOf(startTime));
+        BasicNameValuePair pair2 =new BasicNameValuePair("endTime", String.valueOf(endTime));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4,pair2,pair5);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -166,14 +168,16 @@ public class Termcontroller {
 
 
     //获取井盖告警
-    public DataResponse<ManholeCoverAlarm> getmanholeCoverAlarmslist(String shopId, String tmnType, int pageNum, int pageSize) {
+    public DataResponse<ManholeCoverAlarm> getmanholeCoverAlarmslist(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
-        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        BasicNameValuePair pair5 = new BasicNameValuePair("startTime", String.valueOf(startTime));
+        BasicNameValuePair pair2 =new BasicNameValuePair("endTime", String.valueOf(endTime));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4,pair2,pair5);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -196,14 +200,16 @@ public class Termcontroller {
     }
 
     //获取用电安全告警
-    public DataResponse<ElectricalSafetyAlarm> getElectricalSafetyAlarm(String shopId, String tmnType, int pageNum, int pageSize) {
+    public DataResponse<ElectricalSafetyAlarm> getElectricalSafetyAlarm(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
         BasicNameValuePair pair = new BasicNameValuePair("shopId", shopId);
         BasicNameValuePair pair1 = new BasicNameValuePair("tmnType", tmnType);
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
-        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        BasicNameValuePair pair5 = new BasicNameValuePair("startTime", String.valueOf(startTime));
+        BasicNameValuePair pair2 =new BasicNameValuePair("endTime", String.valueOf(endTime));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4,pair2,pair5);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {

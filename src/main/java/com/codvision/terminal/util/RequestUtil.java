@@ -58,7 +58,7 @@ public class RequestUtil {
         } else {
             urlNameString = url + "?" + param;
         }
-         //System.out.println(urlNameString + "...........url");
+         System.out.println(urlNameString + "...........url");
         try {
             httpClient = new SSLClient();
             httpPost = new HttpGet(urlNameString);

@@ -1,6 +1,6 @@
 package com.codvision.terminal.dao;
 
-import com.codvision.terminal.bean.Device;
+import com.codvision.terminal.bean.devices.Device;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,9 @@ public interface DeviceMapper {
     Device selectDevice(@Param("orgcode") String orgcode);
 
     @Insert("INSERT INTO tbl_device (code,type,name,model,manufacturer,serial_number,lng,lat,status,create_time,update_time,org_code,devicetor,devicetor_mobile) " +
-            "VALUES(#{code},#{type},#{name},#{model},#{manufacturer},#{serialnumber},#{lng},#{lat},#{status},#{createtime},#{updatetime},#{shopId},#{devicetor},#{devicetorMobile})")
+            "VALUES(#{code},#{type},#{name},#{model},#{manufacturer},#{serialnumber},#{lng},#{lat},#{status},#{createtime},#{updatetime},#{shopId},#{devicetor},#{devicetorMobile}) " +
+            "ON CONFLICT (code) DO UPDATE SET code=#{code},type=#{type},name=#{name},model=#{model},manufacturer=#{manufacturer},serial_number=#{serialnumber},lng=#{lng},lat=#{lat}," +
+            "status=#{status},create_time=#{createtime},update_time=#{updatetime},org_code=#{shopId},devicetor=#{devicetor},devicetor_mobile=#{devicetorMobile}")
     int add(Device device);
 
     @Select("SELECT code FROM tbl_device where serial_number=#{devEUI}")

@@ -1,11 +1,11 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.codvision.terminal.bean.Device;
 import com.codvision.terminal.bean.alarms.Alarm;
 import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
 import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
 import com.codvision.terminal.bean.alarms.NewAlarm;
+import com.codvision.terminal.bean.devices.Device;
 import com.codvision.terminal.bean.terminals.TerminalEx;
 import com.codvision.terminal.bean.zuobiao.Gps;
 import com.codvision.terminal.common.ResponseEntity;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,8 @@ public class SmartParkController {
                                   @RequestParam(value = "tmnType", required = true) String tmnType,
 //                                  @RequestParam(value = "devEUI", required = false,defaultValue = "") String devEUI,
                                   @RequestParam(value = "pageNum", required = true) int pageNum,
-                                  @RequestParam(value = "pageSize", required = true) int pageSize) {
+                                  @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
 
         ResponseEntity responseEntity = new ResponseEntity();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/terminals";
@@ -54,6 +56,8 @@ public class SmartParkController {
         BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", "");
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
+
+
         String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
         System.out.println(result);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -165,7 +169,14 @@ public class SmartParkController {
         return responseEntity;
     }
 
-    //获取告警列表
+
+    /**
+     * @Description:  获取告警列表
+     * @Param:
+     * @return:
+     * @Author: XJ
+     * @Date: 2019/4/8
+     */
     @GetMapping("/getAlarmslist")
     public ResponseEntity getAlarmslist(@RequestParam(value = "shopId", required = true) String shopId,
                                         @RequestParam(value = "tmnType", required = true) String tmnType,
@@ -184,7 +195,9 @@ public class SmartParkController {
         //BasicNameValuePair pair2 = new BasicNameValuePair("devEUI", devEUI);
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
-        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
+        BasicNameValuePair pair5 = new BasicNameValuePair("startTime", String.valueOf(startTime));
+        BasicNameValuePair pair2 =new BasicNameValuePair("endTime", String.valueOf(endTime));
+        String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4,pair2,pair5);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         try {
@@ -331,5 +344,53 @@ public class SmartParkController {
         return responseEntity;
     }
 
+    /**
+    * @Description:获取水表
+    * @Param:
+    * @return:
+    * @Author: XJ
+    * @Date: 2019/4/8
+    */
+
+
+    @GetMapping("/gethydro")
+    public ResponseEntity gethydro(@RequestParam(value = "scenarioId")String scenarioId,
+                                   @RequestParam(value = "pageSize")int pageSize,
+                                   @RequestParam(value = "pageNum")int pageNum,
+                                   @RequestParam(value = "getType")String getType,
+                                   @RequestParam(value = "data")String data){
+        ResponseEntity responseEntity=new ResponseEntity();
+        String data1="{"+"\"scenarioId\":"+"\""+scenarioId+"\""+","+"\"getType\":"+"\""+getType+"\""+",\"pageSize\":"+pageSize+",\"pageNum\":"+pageNum+"}";
+        System.out.println(data1);
+        System.out.println(data);
+        String url=BASE_URL3+"iot/iothydroelectricas/gettmndetails?data="+ URLEncoder.encode(data1);
+        String result = RequestUtil.sendGet(url, null);
+        //JSONObject jsonObject = JSONObject.parseObject(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            if (result == null) {
+                responseEntity.setCode(100);
+                responseEntity.setMessage("获取信息错误");
+            } else {
+                jsonNode = objectMapper.readTree(result);
+                JsonNode datajson = jsonNode.findPath("data");
+                JsonNode list = datajson.findPath("terminals");
+                System.out.println(list.toString());
+                JsonNode code = jsonNode.findPath("code");
+                JsonNode message = jsonNode.findPath("message");
+
+                responseEntity.setCode(code.intValue());
+                responseEntity.setMessage(message.asText());
+                responseEntity.setData(datajson);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseEntity;
+
+
+    }
 }
 

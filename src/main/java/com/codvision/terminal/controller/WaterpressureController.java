@@ -1,7 +1,7 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.codvision.terminal.bean.Device;
+import com.codvision.terminal.bean.devices.Device;
 import com.codvision.terminal.bean.terminals.WaterTerminal;
 import com.codvision.terminal.common.ResponseEntity;
 import com.codvision.terminal.service.DeviceService;

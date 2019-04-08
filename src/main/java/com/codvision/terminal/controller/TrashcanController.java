@@ -1,7 +1,7 @@
 package com.codvision.terminal.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.codvision.terminal.bean.TrashCan;
+import com.codvision.terminal.bean.terminals.TrashCan;
 import com.codvision.terminal.common.ResponseEntity;
 import com.codvision.terminal.util.RequestUtil;
 import com.fasterxml.jackson.databind.JsonNode;

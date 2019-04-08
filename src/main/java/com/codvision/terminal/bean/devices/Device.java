@@ -1,4 +1,4 @@
-package com.codvision.terminal.bean;
+package com.codvision.terminal.bean.devices;
 
 import lombok.Data;
 

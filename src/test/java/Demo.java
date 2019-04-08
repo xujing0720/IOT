@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Demo {
@@ -12,6 +13,13 @@ public class Demo {
         System.out.println(date.toString());
 
         //System.out.println(DoubleToFloat.pase(3.141592));
+        long ss=System.currentTimeMillis();
+        System.out.println(String.valueOf(ss));
+
+        Date day=new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(df.format(day));
+
 
     }
 }

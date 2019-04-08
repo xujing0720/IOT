@@ -1,7 +1,7 @@
 package com.codvision.terminal.dao;
 
 import com.codvision.terminal.bean.alarms.Alarm;
-import com.codvision.terminal.bean.Alarminfo;
+import com.codvision.terminal.bean.alarms.Alarminfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +24,9 @@ public interface AlarmMapper {
 
 
     @Insert("insert into tbl_alarm (alarm_code,alarm_name,alarm_type,alarm_position,target_code,target_type,alarm_time,org_code,org_name,lat,lng,disposestatus,recoverystatus,recovery_time,alarm_content) " +
-            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName},#{latitude},#{longitude},#{disposestatus},#{recoverystatus},#{recoveryTime},#{alarmContent})")
+            "values(#{alarmId},#{alarmname},#{alarmType},#{location},#{devEUI},#{devType},#{firstAlarmTime},#{shopId},#{shopName},#{latitude},#{longitude},#{disposestatus},#{recoverystatus},#{recoveryTime},#{alarmContent})" +
+            " ON CONFLICT (alarm_code) DO UPDATE SET alarm_code=#{alarmId},alarm_name=#{alarmname},alarm_type=#{alarmType},alarm_position=#{location},target_code=#{devEUI},target_type=#{devType},alarm_time=#{firstAlarmTime}," +
+            "org_code=#{shopId},org_name=#{shopName},lat=#{latitude},lng=#{longitude},disposestatus=#{disposestatus},recoverystatus=#{recoverystatus},recovery_time=#{recoveryTime},alarm_content=#{alarmContent}")
     int addAlarm(Alarm alarm);
 
 
@@ -52,4 +54,7 @@ public interface AlarmMapper {
     @Insert("INSERT INTO tbl_alarm_org_mapper \n" +
             "SELECT o.oid,alarm_id FROM tbl_alarm d INNER JOIN tbl_org o on d.org_code=o.ref_oid and d.org_code=#{shopId} and d.alarm_code=#{alarmId}")
     int addOrg(@Param("shopId")String shopId,@Param("alarmId") String alarmId);
+
+
+
 }
