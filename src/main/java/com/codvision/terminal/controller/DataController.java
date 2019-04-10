@@ -1,10 +1,10 @@
 package com.codvision.terminal.controller;
 
-import com.codvision.terminal.bean.devices.Device;
 import com.codvision.terminal.bean.alarms.Alarm;
 import com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm;
 import com.codvision.terminal.bean.alarms.ManholeCoverAlarm;
 import com.codvision.terminal.bean.alarms.NewAlarm;
+import com.codvision.terminal.bean.devices.Device;
 import com.codvision.terminal.bean.terminals.GeoTerminal;
 import com.codvision.terminal.bean.terminals.TerminalEx;
 import com.codvision.terminal.bean.terminals.WaterTerminal;
@@ -39,7 +39,13 @@ public class DataController {
 
     @PostConstruct
     @Scheduled(cron = "0 0 0/2 * * *")
-    //获取烟感，井盖，用电设备,燃气表
+    /**
+    * @Description: 获取烟感，井盖，用电设备,燃气表
+    * @Param: []
+    * @return: void
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public void getTer() {
         Termcontroller termcontroller = new Termcontroller();
         int pageSize = 50;
@@ -66,7 +72,7 @@ public class DataController {
                     device.setCreatetime(new Date());
                     device.setUpdatetime(terminalList.get(i).getUpdateTime());
                     String coordType = terminalList.get(i).getCoordType();
-                    System.out.println(coordType);
+                   // System.out.println(coordType);
                     if (terminalList.get(i).getLatitude() != null) {
                         if (coordType == null || coordType.equals("bd-09")) {
                             gps = PositionUtil.bd09_To_Gps84(terminalList.get(i).getLatitude(), terminalList.get(i).getLongitude());
@@ -137,7 +143,7 @@ public class DataController {
                         if (coordType == null || coordType.equals("gcj-02")) {
                             gps = PositionUtil.gcj_To_Gps84(terminalList.get(i).getLat(), terminalList.get(i).getLng());
                         } else if (coordType.equals("wgs84")) {
-                            System.out.println(terminalList.get(i).getLat());
+                          //  System.out.println(terminalList.get(i).getLat());
                             gps.setWgLat(DandF.flTodo(terminalList.get(i).getLat()));
                             gps.setWgLon(DandF.flTodo(terminalList.get(i).getLng()));
                         } else if (coordType.equals("bd-09")) {
@@ -198,12 +204,12 @@ public class DataController {
                 device.setCreatetime(new Date());
                 device.setUpdatetime(terminalList.get(i).getUpdateTime());
                 String coordType = terminalList.get(i).getCoordType();
-                System.out.println(coordType);
+          //      System.out.println(coordType);
                 if (terminalList.get(i).getLatitude() != null) {
                     if (coordType == null || coordType.equals("bd-09")) {
                         gps = PositionUtil.bd09_To_Gps84(terminalList.get(i).getLatitude(), terminalList.get(i).getLongitude());
                     } else if (coordType.equals("wgs84")) {
-                        System.out.println(terminalList.get(i).getLatitude());
+                      //  System.out.println(terminalList.get(i).getLatitude());
                         gps.setWgLat(DandF.flTodo(terminalList.get(i).getLatitude()));
                         gps.setWgLon(DandF.flTodo(terminalList.get(i).getLongitude()));
                     } else if (coordType.equals("gcj-02")) {
@@ -276,7 +282,7 @@ public class DataController {
                     if (coordType == null || coordType.equals("bd-09")) {
                         gps = PositionUtil.bd09_To_Gps84(newAlarmList.get(i).getLatitude(), newAlarmList.get(i).getLongitude());
                     } else if (coordType.equals("wgs84")) {
-                        System.out.println(newAlarmList.get(i).getLatitude());
+                      //  System.out.println(newAlarmList.get(i).getLatitude());
                         gps.setWgLat(DandF.flTodo(newAlarmList.get(i).getLatitude()));
                         gps.setWgLon(DandF.flTodo(newAlarmList.get(i).getLongitude()));
                     } else if (coordType.equals("gcj-02")) {
@@ -324,7 +330,7 @@ public class DataController {
             DataResponse<ManholeCoverAlarm> dataResponse = termcontroller.getmanholeCoverAlarmslist(shopId[m], tmnType, pageNum, pageSize, startTime, endTime);
             List<ManholeCoverAlarm> newAlarmList = new ArrayList<>();
             int total = dataResponse.getTotal();
-            System.out.println(total);
+         //   System.out.println(total);
             for (int j = 1; j < total / pageSize + 2; j++) {
                 // System.out.println("第" + j + "页数据");
                 DataResponse<ManholeCoverAlarm> data = termcontroller.getmanholeCoverAlarmslist(shopId[m], tmnType, j, pageSize, startTime, endTime);
@@ -356,7 +362,7 @@ public class DataController {
                         if (coordType == null || coordType.equals("bd-09")) {
                             gps = PositionUtil.bd09_To_Gps84(newAlarmList.get(i).getLatitude(), newAlarmList.get(i).getLongitude());
                         } else if (coordType.equals("wgs84")) {
-                            System.out.println(newAlarmList.get(i).getLatitude());
+                          //  System.out.println(newAlarmList.get(i).getLatitude());
                             gps.setWgLat(DandF.flTodo(newAlarmList.get(i).getLatitude()));
                             gps.setWgLon(DandF.flTodo(newAlarmList.get(i).getLongitude()));
                         } else if (coordType.equals("gcj-02")) {
@@ -380,7 +386,7 @@ public class DataController {
                     int c = alarmService.addOrg(alarm.getShopId(), alarm.getAlarmId());         //添加到告警组织
 
                 } else {
-                  //  System.out.println("此告警数据已存在" + i);
+                //    System.out.println("此告警数据已存在" + i);
                 }
             }
         }
@@ -430,7 +436,7 @@ public class DataController {
                         if (coordType == null || coordType.equals("gcj-02")) {
                             gps = PositionUtil.gcj_To_Gps84(newAlarmList.get(i).getLatitude(), newAlarmList.get(i).getLongitude());
                         } else if (coordType.equals("wgs84")) {
-                            System.out.println(newAlarmList.get(i).getLatitude());
+                        //    System.out.println(newAlarmList.get(i).getLatitude());
                             gps.setWgLat(DandF.flTodo(newAlarmList.get(i).getLatitude()));
                             gps.setWgLon(DandF.flTodo(newAlarmList.get(i).getLongitude()));
                         } else if (coordType.equals("bd-09")) {

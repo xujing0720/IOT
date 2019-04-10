@@ -30,7 +30,14 @@ public class Termcontroller {
     DeviceService deviceService;
     @Autowired
    AlarmService alarmService;
-    //获取烟感，井盖，用电安全设备
+
+    /**
+    * @Description:  获取烟感，井盖，用电安全设备
+    * @Param: [shopId, tmnType, pageNum, pageSize]
+    * @return: com.codvision.terminal.common.DataResponse
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public DataResponse getstwe(String shopId, String tmnType, int pageNum, int pageSize) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/terminals";
@@ -40,7 +47,7 @@ public class Termcontroller {
         BasicNameValuePair pair3 = new BasicNameValuePair("pageNum", String.valueOf(pageNum));
         BasicNameValuePair pair4 = new BasicNameValuePair("pageSize", String.valueOf(pageSize));
         String result = RequestUtil.doGet(url, pair, pair1, pair3, pair4);
-        System.out.println(result);
+       // System.out.println(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
         List<TerminalEx> terminalExList=null;
@@ -62,7 +69,6 @@ public class Termcontroller {
             responseEntity.setList(terminalExList);
             responseEntity.setTotal(total.intValue());
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +76,13 @@ public class Termcontroller {
     }
 
 
-    //获取水压设备
+    /**
+    * @Description:获取水压设备
+    * @Param: [shopId, status, pageNum, pageSize]
+    * @return: com.codvision.terminal.common.DataResponse
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public DataResponse getWaterpressure(String shopId, int status, int pageNum, int pageSize) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iot_waterpressure_restapi/external/terminal/realinfo";
@@ -103,13 +115,20 @@ public class Termcontroller {
         return responseEntity;
     }
 
-    //获取地磁
+
+    /**
+    * @Description: 获取地磁
+    * @Param: [scenarioId]
+    * @return: com.codvision.terminal.common.DataResponse<com.codvision.terminal.bean.terminals.GeoTerminal>
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public DataResponse<GeoTerminal> getDici(String scenarioId){
         DataResponse responseEntity=new DataResponse();
         String url=BASE_URL3+"iot/iot_geomagnetic/getrealinfo";
         BasicNameValuePair pair = new BasicNameValuePair("scenarioId", scenarioId);
         String result = RequestUtil.doGet(url, pair);
-        System.out.println(result);
+     //   System.out.println(result);
         JSONObject jsonObject = JSONObject.parseObject(result);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = null;
@@ -133,8 +152,13 @@ public class Termcontroller {
 
 
 
-
-    //获取烟感告警
+   /**
+   * @Description: 获取烟感告警信息
+   * @Param: [shopId, tmnType, pageNum, pageSize, startTime, endTime]
+   * @return: com.codvision.terminal.common.DataResponse<com.codvision.terminal.bean.alarms.NewAlarm>
+   * @Author: XJ
+   * @Date: 2019/4/8
+   */
     public DataResponse<NewAlarm> getSmokerAlarmslist(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
@@ -167,7 +191,13 @@ public class Termcontroller {
     }
 
 
-    //获取井盖告警
+    /**
+    * @Description: 获取井盖告警
+    * @Param: [shopId, tmnType, pageNum, pageSize, startTime, endTime]
+    * @return: com.codvision.terminal.common.DataResponse<com.codvision.terminal.bean.alarms.ManholeCoverAlarm>
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public DataResponse<ManholeCoverAlarm> getmanholeCoverAlarmslist(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
@@ -199,7 +229,14 @@ public class Termcontroller {
         return responseEntity;
     }
 
-    //获取用电安全告警
+
+    /**
+    * @Description: 获取用电安全告警
+    * @Param: [shopId, tmnType, pageNum, pageSize, startTime, endTime]
+    * @return: com.codvision.terminal.common.DataResponse<com.codvision.terminal.bean.alarms.ElectricalSafetyAlarm>
+    * @Author: XJ
+    * @Date: 2019/4/9
+    */
     public DataResponse<ElectricalSafetyAlarm> getElectricalSafetyAlarm(String shopId, String tmnType, int pageNum, int pageSize, Long startTime, Long endTime) {
         DataResponse responseEntity = new DataResponse();
         String url = BASE_URL3 + "iot/iotparkdataanalysis/proxy/alarms";
@@ -221,7 +258,7 @@ public class Termcontroller {
             JsonNode datajson = jsonNode.findPath("data");
             JsonNode list = datajson.findPath("list");
             JsonNode total=datajson.findPath("total");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
             List<ElectricalSafetyAlarm> newAlarmList = JSONArray.parseArray(list.toString(), ElectricalSafetyAlarm.class);
             responseEntity.setList(newAlarmList);
             responseEntity.setTotal(total.intValue());

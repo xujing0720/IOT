@@ -345,7 +345,7 @@ public class SmartParkController {
     }
 
     /**
-    * @Description:获取水表
+    * @Description: 水表
     * @Param:
     * @return:
     * @Author: XJ
